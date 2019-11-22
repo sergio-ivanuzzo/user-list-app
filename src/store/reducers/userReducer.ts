@@ -31,6 +31,12 @@ export const userReducer = (state = initialState, action: AnyAction): IUserReduc
                 users: action.payload
             };
         }
+        case UserActionType.USER_FETCH_COMPLETE: {
+            return {
+                ...state,
+                currentUser: action.payload
+            };
+        }
         case UserActionType.USER_ADD_COMPLETE: {
             return {
                 ...state,

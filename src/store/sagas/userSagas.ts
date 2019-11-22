@@ -28,3 +28,22 @@ export function* fetchUsers(action: IUserRequestAction): IterableIterator<Effect
         return yield put(UserActions.actionUserError(e));
     }
 }
+
+export function* addUser(action: IUserRequestAction): IterableIterator<Effect> {
+    try {
+        let response: AxiosResponse<{data: any}> = yield call(() => client.post("/", action.payload));
+
+        if (response) {
+            toast.success("User successfully added!");
+            action.promise.resolve();
+            return yield put(UserActions.actionUsersFetchComplete(response.data));
+        } else {
+            action.promise.reject();
+            return yield put(UserActions.actionUserError());
+        }
+    } catch (e) {
+        toast.error(e.toString());
+        action.promise.reject();
+        return yield put(UserActions.actionUserError(e));
+    }
+}
