@@ -8,7 +8,16 @@ module.exports = {
         path: path.resolve(__dirname, "dist"),
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: [".ts", ".tsx", ".js"],
+        alias: {
+            store: path.resolve(__dirname, "./src/store/"),
+            actions: path.resolve(__dirname, "./src/store/actions/"),
+            reducers: path.resolve(__dirname, "./src/store/reducers/"),
+            containers: path.resolve(__dirname, "./src/containers/"),
+            components: path.resolve(__dirname, "./src/components/"),
+            helpers: path.resolve(__dirname, "./src/helpers"),
+            httpClient: path.resolve(__dirname, "./src/httpClient/")
+        }
     },
     plugins: [new HtmlWebpackPlugin({
         filename: "index.html",
