@@ -59,6 +59,21 @@ export const userReducer = (state = initialState, action: AnyAction): IUserReduc
                 ]
             };
         }
+        case UserActionType.USER_REMOVE_COMPLETE: {
+            const index = state.users.findIndex((user) => user.id === action.payload.id);
+
+            if (index === -1) {
+                return state;
+            }
+
+            return {
+                ...state,
+                users: [
+                    ...state.users.slice(0, index),
+                    ...state.users.slice(index + 1)
+                ]
+            };
+        }
         default: {
             return state;
         }

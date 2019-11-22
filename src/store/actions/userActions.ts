@@ -3,15 +3,17 @@ import { AnyAction } from "redux";
 import { IPromiseMethod } from "helpers";
 
 export enum UserActionType {
-    USER_FETCH_LIST = 'USER_FETCH_LIST',
-    USER_FETCH_LIST_COMPLETE = 'USER_FETCH_LIST_COMPLETE',
-    USER_FETCH = 'USER_FETCH',
-    USER_FETCH_COMPLETE = 'USER_FETCH_COMPLETE',
-    USER_ADD = 'USER_ADD',
-    USER_ADD_COMPLETE = 'USER_ADD_COMPLETE',
-    USER_UPDATE = 'USER_UPDATE',
-    USER_UPDATE_COMPLETE = 'USER_UPDATE_COMPLETE',
-    USER_ERROR = 'USER_ERROR',
+    USER_FETCH_LIST = "USER_FETCH_LIST",
+    USER_FETCH_LIST_COMPLETE = "USER_FETCH_LIST_COMPLETE",
+    USER_FETCH = "USER_FETCH",
+    USER_FETCH_COMPLETE = "USER_FETCH_COMPLETE",
+    USER_ADD = "USER_ADD",
+    USER_ADD_COMPLETE = "USER_ADD_COMPLETE",
+    USER_UPDATE = "USER_UPDATE",
+    USER_UPDATE_COMPLETE = "USER_UPDATE_COMPLETE",
+    USER_REMOVE = "USER_REMOVE",
+    USER_REMOVE_COMPLETE = "USER_REMOVE_COMPLETE",
+    USER_ERROR = "USER_ERROR",
 }
 
 export interface IUserAction {
@@ -110,6 +112,24 @@ export function actionUserUpdateComplete(payload: any): AnyAction {
     return <IUserResponseAction>{
         payload,
         type: UserActionType.USER_UPDATE_COMPLETE
+    }
+}
+
+export function actionUserRemove(payload: any, resolve: IPromiseMethod, reject: IPromiseMethod): AnyAction {
+    return <IUserRequestAction>{
+        payload,
+        type: UserActionType.USER_REMOVE,
+        promise: {
+            resolve,
+            reject
+        }
+    }
+}
+
+export function actionUserRemoveComplete(payload: any): AnyAction {
+    return <IUserResponseAction>{
+        payload,
+        type: UserActionType.USER_REMOVE_COMPLETE
     }
 }
 

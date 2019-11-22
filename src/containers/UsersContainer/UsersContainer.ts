@@ -16,17 +16,34 @@ class UsersContainer extends React.Component<IUsersContainerProps> {
     protected get injectedProps(): IUsersContainerChildProps {
         return {
             users: this.props.users,
-            fetchUsers: this.fetchUsers
+            currentUser: this.props.currentUser,
+            fetchUsers: this.fetchUsers,
+            addUser: this.addUser,
+            updateUser: this.updateUser,
+            removeUser: this.removeUser,
         }
     };
 
     protected fetchUsers = async (request) => {
         await awaitify((resolve, reject) => this.props.fetchUsers(request, resolve, reject));
-    }
+    };
+
+    protected addUser = async (request) => {
+        await awaitify((resolve, reject) => this.props.addUser(request, resolve, reject));
+    };
+
+    protected updateUser = async (request) => {
+        await awaitify((resolve, reject) => this.props.updateUser(request, resolve, reject));
+    };
+
+    protected removeUser = async (request) => {
+        await awaitify((resolve, reject) => this.props.removeUser(request, resolve, reject));
+    };
 }
 
 const mapStateToProps = (state: IStoreState) => ({
     users: state.userReducer.users,
+    currentUser: state.userReducer.currentUser,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
@@ -34,7 +51,22 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
         request,
         resolve: IPromiseMethod,
         reject: IPromiseMethod
-    ) => dispatch(UserActions.actionUsersFetch(request, resolve, reject))
+    ) => dispatch(UserActions.actionUsersFetch(request, resolve, reject)),
+    addUser: (
+        request,
+        resolve: IPromiseMethod,
+        reject: IPromiseMethod
+    ) => dispatch(UserActions.actionUserAdd(request, resolve, reject)),
+    updateUser: (
+        request,
+        resolve: IPromiseMethod,
+        reject: IPromiseMethod
+    ) => dispatch(UserActions.actionUserUpdate(request, resolve, reject)),
+    removeUser: (
+        request,
+        resolve: IPromiseMethod,
+        reject: IPromiseMethod
+    ) => dispatch(UserActions.actionUserRemove(request, resolve, reject))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
