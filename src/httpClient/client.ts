@@ -1,7 +1,9 @@
 import Axios from "axios";
-import qs from "qs";
+import * as qs from "qs";
+
+console.log(process.env);
 
 export const client = Axios.create({
     baseURL: process.env.API_URL,
-    paramsSerializer: (params) => qs.stringify(params, {arrayFormat: 'repeat'}),
+    paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
 });
