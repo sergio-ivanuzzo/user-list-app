@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Provider } from "react-redux";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import { store } from "store/store";
 
 import UsersContainer, { IUsersContainerChildProps } from "containers/UsersContainer";
-import WeatherUI from "components/WeatherUI/WeatherUI";
+import UsersTable from "components/UserUI/UsersTable/UsersTable";
 
 
 class App extends React.Component {
@@ -12,15 +13,28 @@ class App extends React.Component {
         return (
             <Provider store={store}>
                 <UsersContainer>
-                    {this.renderWeatherUI}
+                    {this.renderUsersUI}
                 </UsersContainer>
             </Provider>
         );
     }
 
-    protected renderWeatherUI = (props: IUsersContainerChildProps): React.ReactNode => {
+    protected renderUsersUI = (props: IUsersContainerChildProps): React.ReactNode => {
         return (
-            <WeatherUI {...props} />
+            <Router>
+                <Switch>
+                    <Route path="/">
+                        <UsersTable users={props.users} />
+                    </Route>
+                    <Route path="/add">
+                        <div>Soon...</div>
+                    </Route>
+                    <Route path="/edit">
+                        <div>Soon...</div>
+                    </Route>
+                    <Redirect to="/" />
+                </Switch>
+            </Router>
         );
     }
 }
