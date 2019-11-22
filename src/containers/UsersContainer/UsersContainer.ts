@@ -10,7 +10,6 @@ import { awaitify, IPromiseMethod } from "helpers";
 
 class UsersContainer extends React.Component<IUsersContainerProps> {
     async componentDidMount(): Promise<void> {
-        console.log("fetch");
         await this.fetchUsers(null);
     }
 

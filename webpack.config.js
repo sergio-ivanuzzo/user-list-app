@@ -7,6 +7,9 @@ module.exports = {
         filename: "main.js",
         path: path.resolve(__dirname, "dist"),
     },
+    resolve: {
+        extensions: [".ts", ".tsx", ".js"]
+    },
     plugins: [new HtmlWebpackPlugin({
         filename: "index.html",
         template: "./public/index.html"
@@ -43,6 +46,10 @@ module.exports = {
                         loader: "file-loader"
                     }
                 ]
+            },
+            {
+                test: /\.tsx?$/,
+                loader: "ts-loader"
             }
         ],
     },
