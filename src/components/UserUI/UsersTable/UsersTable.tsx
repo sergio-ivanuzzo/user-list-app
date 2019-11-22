@@ -54,23 +54,13 @@ class UsersTable extends React.Component<IUsersTableProps> {
                 <TableCell component="th" scope="row">
                     {user.first_name}
                 </TableCell>
+                <TableCell align="right">{user.last_name}</TableCell>
+                <TableCell align="right">{user.birth_date}</TableCell>
+                <TableCell align="right">{user.gender}</TableCell>
+                <TableCell align="right">{user.job}</TableCell>
+                <TableCell align="right">{user.biography}</TableCell>
                 <TableCell align="right">
-                    <span>{user.last_name}</span>
-                </TableCell>
-                <TableCell align="right">
-                    <span>{user.birth_date}</span>
-                </TableCell>
-                <TableCell align="right">
-                    <span>{user.gender}</span>
-                </TableCell>
-                <TableCell align="right">
-                    <span>{user.job}</span>
-                </TableCell>
-                <TableCell align="right">
-                    <span>{user.biography}</span>
-                </TableCell>
-                <TableCell align="right">
-                    <span>{user.is_active}</span>
+                    {user.is_active ? "Yes" : "No"}
                 </TableCell>
                 <TableCell align="right">
 
