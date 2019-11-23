@@ -27,10 +27,6 @@ class SelectedUser extends React.Component<ISelectedUserProps> {
         return null;
     };
 
-    protected handleBackRedirect = (): void => {
-        this.context.router.history.goBack();
-    };
-
     protected handleClick = async (): Promise<void> => {
         this.props.onClick();
     }

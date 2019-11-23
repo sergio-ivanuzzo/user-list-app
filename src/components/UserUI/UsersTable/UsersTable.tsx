@@ -8,6 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DataTable from "components/DataTable/DataTable";
 import { IUsersTableProps } from "components/UserUI/UsersTable/UsersTableProps";
 import { HistoryContext } from "components/AppProps";
+import { ISchemaItem } from "components/DataTable/DataTableProps";
 
 const styles = (theme: Theme): StyleRules => ({
     root: {
@@ -20,7 +21,7 @@ const styles = (theme: Theme): StyleRules => ({
     },
 });
 
-const UsersTableSchema = (handleEdit, handleDelete) => {
+const UsersTableSchema = (handleEdit, handleDelete): Array<ISchemaItem> => {
     return [{
         title: "First Name",
         fieldName: "first_name"
@@ -44,6 +45,7 @@ const UsersTableSchema = (handleEdit, handleDelete) => {
         fieldName: "is_active",
         cell: (is_active) => (is_active) ? "Yes" : "No"
     }, {
+        fieldName: "id",
         cell: (id) => {
             return (
                 <div>
@@ -51,6 +53,7 @@ const UsersTableSchema = (handleEdit, handleDelete) => {
                         color="primary"
                         aria-label="edit"
                         onClick={handleEdit(id)}
+                        href="#"
                     >
                         <EditIcon />
                     </IconButton>
@@ -58,6 +61,7 @@ const UsersTableSchema = (handleEdit, handleDelete) => {
                         color="secondary"
                         aria-label="delete"
                         onClick={handleDelete(id)}
+                        href="#"
                     >
                         <DeleteIcon />
                     </IconButton>
