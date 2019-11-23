@@ -4,11 +4,18 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Table from "@material-ui/core/Table";
+import { TablePagination } from "@material-ui/core";
+import TableFooter from "@material-ui/core/TableFooter";
 
-import { IDataTableProps, ISchemaItem } from "components/DataTable/DataTableProps";
 import { uniqkey } from "helpers";
+import { IDataTableProps, ISchemaItem } from "components/DataTable/DataTableProps";
+import { IDataTableState } from "components/DataTable/DataTableState";
 
-class DataTable extends React.Component<IDataTableProps> {
+class DataTable extends React.Component<IDataTableProps, IDataTableState> {
+    public state: IDataTableState = {
+        page: 0
+    };
+
     public render(): React.ReactNode {
         return (
             <Table className={this.props.className}>
@@ -20,6 +27,19 @@ class DataTable extends React.Component<IDataTableProps> {
                 <TableBody>
                     {this.renderRows()}
                 </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TablePagination
+                            count={this.props.data.length}
+                            rowsPerPage={5}
+                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                            colSpan={this.props.schema.length}
+                            onChangePage={this.handleChangePage}
+                            component="td"
+                            page={this.state.page}
+                        />
+                    </TableRow>
+                </TableFooter>
             </Table>
         );
     }
@@ -39,7 +59,7 @@ class DataTable extends React.Component<IDataTableProps> {
             return (
                 <TableRow key={uniqkey()}>
                     {schema.map((column) => (
-                        <TableCell component="th" scope="row" key={uniqkey()}>
+                        <TableCell key={uniqkey()}>
                             {this.renderCell(column, item)}
                         </TableCell>
                     ))}
@@ -55,7 +75,13 @@ class DataTable extends React.Component<IDataTableProps> {
         } else {
             return cellValue;
         }
-    }
+    };
+
+    protected handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+        this.setState({
+            page: newPage
+        })
+    };
 }
 
 export default DataTable;

@@ -14,6 +14,7 @@ const styles = (theme: Theme): StyleRules => ({
     root: {
         width: '100%',
         overflowX: 'auto',
+        background: 'snow'
     },
     table: {
         minWidth: 650,
@@ -46,10 +47,10 @@ const UsersTableSchema: Array<ISchemaItem> = [{
     cell: (id) => {
         return (
             <div>
-                <IconButton color="primary" aria-label="Edit">
+                <IconButton color="primary" aria-label="edit">
                     <EditIcon />
                 </IconButton>
-                <IconButton aria-label="delete">
+                <IconButton color="secondary" aria-label="delete">
                     <DeleteIcon />
                 </IconButton>
             </div>

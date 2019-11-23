@@ -2,13 +2,14 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { Router, Switch, Route, Redirect } from "react-router-dom";
 import { Container } from "@material-ui/core";
+import { createBrowserHistory } from "history";
 
 import { store } from "store/store";
 
 import UsersContainer, { IUsersContainerChildProps } from "containers/UsersContainer";
 import UsersTable from "components/UserUI/UsersTable/UsersTable";
+import SelectedUser from "components/UserUI/SelectedUser/SelectedUser";
 import { HistoryContext } from "components/AppProps";
-import {createBrowserHistory} from "history";
 
 class App extends React.Component {
     public render(): React.ReactNode {
@@ -37,14 +38,14 @@ class App extends React.Component {
         return (
             <Router history={this.context.history}>
                 <Switch>
-                    <Route path="/">
+                    <Route exact path="/">
                         <UsersTable users={props.users} />
                     </Route>
                     <Route path="/add">
                         <div>Soon...</div>
                     </Route>
                     <Route path="/edit/:id">
-                        <div>Soon...</div>
+                        <SelectedUser />
                     </Route>
                     <Redirect to="/" />
                 </Switch>
