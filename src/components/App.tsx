@@ -34,7 +34,6 @@ class App extends React.Component {
     }
 
     protected renderUsersUI = (props: IUsersContainerChildProps): React.ReactNode => {
-        console.log(this.context);
         return (
             <Router history={this.context.history}>
                 <Switch>
