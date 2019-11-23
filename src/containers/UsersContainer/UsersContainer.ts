@@ -47,7 +47,7 @@ class UsersContainer extends React.Component<IUsersContainerProps> {
 
 const mapStateToProps = (state: IStoreState) => ({
     users: state.userReducer.users,
-    currentUser: state.userReducer.currentUser,
+    currentUser: state.userReducer.selectedUser,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({

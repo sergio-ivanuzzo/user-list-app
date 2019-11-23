@@ -1,15 +1,14 @@
 import * as React from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { StyleRules, Theme, withStyles } from '@material-ui/core/styles';
-import { withRouter} from "react-router-dom";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
+import DataTable from "components/DataTable/DataTable";
+import { ISchemaItem } from "components/DataTable/DataTableProps";
 import { IUsersTableProps } from "components/UserUI/UsersTable/UsersTableProps";
-import { IUser } from "reducers/userReducer";
+import { HistoryContext } from "components/AppProps";
 
 const styles = (theme: Theme): StyleRules => ({
     root: {
@@ -21,56 +20,58 @@ const styles = (theme: Theme): StyleRules => ({
     },
 });
 
+const UsersTableSchema: Array<ISchemaItem> = [{
+    title: "First Name",
+    fieldName: "first_name"
+}, {
+    title: "Last Name",
+    fieldName: "last_name"
+}, {
+    title: "Birth Date",
+    fieldName: "birth_date"
+}, {
+    title: "Gender",
+    fieldName: "gender"
+}, {
+    title: "Job",
+    fieldName: "job"
+}, {
+    title: "Biography",
+    fieldName: "biography"
+}, {
+    title: "Is Active",
+    fieldName: "is_active",
+    cell: (is_active) => (is_active) ? "Yes" : "No"
+}, {
+    cell: (id) => {
+        return (
+            <div>
+                <IconButton color="primary" aria-label="Edit">
+                    <EditIcon />
+                </IconButton>
+                <IconButton aria-label="delete">
+                    <DeleteIcon />
+                </IconButton>
+            </div>
+        )
+    }
+}];
+
 class UsersTable extends React.Component<IUsersTableProps> {
     public render(): React.ReactNode {
         const { classes, users } = this.props;
         return (
             <Paper className={classes.root}>
-                <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>First Name</TableCell>
-                            <TableCell align="right">Last Name</TableCell>
-                            <TableCell align="right">Birth Date</TableCell>
-                            <TableCell align="right">Gender</TableCell>
-                            <TableCell align="right">Job</TableCell>
-                            <TableCell align="right">Biography</TableCell>
-                            <TableCell align="right">Active</TableCell>
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right"></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {users.map(this.renderTableItem)}
-                    </TableBody>
-                </Table>
+                <DataTable
+                    className={classes.table}
+                    data={users}
+                    schema={UsersTableSchema}
+                />
             </Paper>
-        );
-    }
-
-    protected renderTableItem = (user: IUser) => {
-        return (
-            <TableRow key={user.id}>
-                <TableCell component="th" scope="row">
-                    {user.first_name}
-                </TableCell>
-                <TableCell align="right">{user.last_name}</TableCell>
-                <TableCell align="right">{user.birth_date}</TableCell>
-                <TableCell align="right">{user.gender}</TableCell>
-                <TableCell align="right">{user.job}</TableCell>
-                <TableCell align="right">{user.biography}</TableCell>
-                <TableCell align="right">
-                    {user.is_active ? "Yes" : "No"}
-                </TableCell>
-                <TableCell align="right">
-
-                </TableCell>
-                <TableCell align="right"></TableCell>
-            </TableRow>
         );
     }
 }
 
-export default withRouter(
-    withStyles(styles)(UsersTable)
-);
+UsersTable.contextType = HistoryContext;
+
+export default withStyles(styles)(UsersTable);

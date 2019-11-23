@@ -15,12 +15,12 @@ export interface IUser {
 
 export interface IUserReducerState {
     users: Array<IUser>;
-    currentUser: IUser;
+    selectedUser: IUser;
 }
 
 export const initialState: IUserReducerState = {
     users: [],
-    currentUser: undefined
+    selectedUser: undefined
 };
 
 export const userReducer = (state = initialState, action: AnyAction): IUserReducerState => {
@@ -34,7 +34,7 @@ export const userReducer = (state = initialState, action: AnyAction): IUserReduc
         case UserActionType.USER_FETCH_COMPLETE: {
             return {
                 ...state,
-                currentUser: action.payload
+                selectedUser: action.payload
             };
         }
         case UserActionType.USER_ADD_COMPLETE: {

@@ -3,6 +3,6 @@ import { RouteComponentProps } from "react-router";
 
 import { IUser } from "reducers/userReducer";
 
-export interface IUsersTableProps extends WithStyles, RouteComponentProps {
+export interface IUsersTableProps extends WithStyles {
     users: Array<IUser>;
 }
