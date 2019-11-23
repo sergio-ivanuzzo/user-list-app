@@ -10,6 +10,9 @@ import UsersContainer, { IUsersContainerChildProps } from "containers/UsersConta
 import UsersTable from "components/UserUI/UsersTable/UsersTable";
 import SelectedUser from "components/UserUI/SelectedUser/SelectedUser";
 import { HistoryContext } from "components/AppProps";
+import ButtonPanel from "components/UserUI/ButtonPanel/ButtonPanel";
+import UserForm from "components/UserUI/UserForm/UserForm";
+import Button from "@material-ui/core/Button";
 
 class App extends React.Component {
     public render(): React.ReactNode {
@@ -39,13 +42,24 @@ class App extends React.Component {
             <Router history={this.context.history}>
                 <Switch>
                     <Route exact path="/">
-                        <UsersTable users={props.users} />
+                        <ButtonPanel
+                            redirectTo="/add"
+                            buttonText="Add New User"
+                        />
+                        <UsersTable {...props} />
                     </Route>
                     <Route path="/add">
-                        <div>Soon...</div>
+                        <ButtonPanel
+                            redirectTo="/"
+                            buttonText="Back"
+                        />
+                        <UserForm onClick={props.addUser} />
                     </Route>
                     <Route path="/edit/:id">
-                        <SelectedUser />
+                        <SelectedUser
+                            onClick={props.updateUser}
+                            users={props.users}
+                        />
                     </Route>
                     <Redirect to="/" />
                 </Switch>
