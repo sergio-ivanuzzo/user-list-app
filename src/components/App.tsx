@@ -1,8 +1,10 @@
 import * as React from "react";
 import { Provider } from "react-redux";
+import { createBrowserHistory } from "history";
 import { Router, Switch, Route, Redirect } from "react-router-dom";
 import { Container } from "@material-ui/core";
-import { createBrowserHistory } from "history";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import MomentUtils from "@date-io/moment";
 
 import { store } from "store/store";
 
@@ -12,7 +14,6 @@ import SelectedUser from "components/UserUI/SelectedUser/SelectedUser";
 import { HistoryContext } from "components/AppProps";
 import ButtonPanel from "components/UserUI/ButtonPanel/ButtonPanel";
 import UserForm from "components/UserUI/UserForm/UserForm";
-import Button from "@material-ui/core/Button";
 
 class App extends React.Component {
     public render(): React.ReactNode {
@@ -23,15 +24,17 @@ class App extends React.Component {
         return (
             <Container>
                 <Provider store={store}>
-                    <HistoryContext.Provider value={history}>
-                        <HistoryContext.Consumer>
-                            {() => (
-                                <UsersContainer>
-                                    {this.renderUsersUI}
-                                </UsersContainer>
-                            )}
-                        </HistoryContext.Consumer>
-                    </HistoryContext.Provider>
+                    <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <HistoryContext.Provider value={history}>
+                            <HistoryContext.Consumer>
+                                {() => (
+                                    <UsersContainer>
+                                        {this.renderUsersUI}
+                                    </UsersContainer>
+                                )}
+                            </HistoryContext.Consumer>
+                        </HistoryContext.Provider>
+                    </MuiPickersUtilsProvider>
                 </Provider>
             </Container>
         );
@@ -53,13 +56,10 @@ class App extends React.Component {
                             redirectTo="/"
                             buttonText="Back"
                         />
-                        <UserForm onClick={props.addUser} />
+                        <UserForm {...props} />
                     </Route>
                     <Route path="/edit/:id">
-                        <SelectedUser
-                            onClick={props.updateUser}
-                            users={props.users}
-                        />
+                        <SelectedUser {...props} />
                     </Route>
                     <Redirect to="/" />
                 </Switch>

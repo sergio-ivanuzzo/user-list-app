@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Moment } from "moment";
 import {
     FormControl,
     Input,
@@ -6,8 +7,11 @@ import {
     Checkbox,
     TextField,
     Button,
-    FormControlLabel
+    FormControlLabel,
+    Select,
+    MenuItem
 } from "@material-ui/core";
+import { DatePicker } from "@material-ui/pickers";
 
 import { IUserFormProps } from "components/UserUI/UserForm/UserFormProps";
 import { IUserFormState } from "components/UserUI/UserForm/UserFormState";
@@ -25,7 +29,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                 selectedUser: {
                     first_name: "",
                     last_name: "",
-                    birth_date: "",
+                    birth_date: null,
                     gender: "",
                     job: "",
                     biography: "",
@@ -45,6 +49,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             id="first-name"
                             autoComplete="off"
                             value={this.state.selectedUser.first_name}
+                            onChange={this.handleChange("first_name")}
                         />
                     </FormControl>
                 </div>
@@ -52,27 +57,50 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                 <div>
                     <FormControl component="div">
                         <InputLabel htmlFor="last-name">Last Name</InputLabel>
-                        <Input id="last-name" autoComplete="off"  />
+                        <Input
+                            id="last-name"
+                            autoComplete="off"
+                            value={this.state.selectedUser.last_name}
+                            onChange={this.handleChange("last_name")}
+                        />
                     </FormControl>
                 </div>
 
                 <div>
                     <FormControl component="div">
-                        <InputLabel htmlFor="birth-date">Birth Date</InputLabel>
-                        <Input id="birth-date" autoComplete="off"  />
+                        <DatePicker
+                            value={this.state.selectedUser.birth_date}
+                            onChange={this.handleDateChange}
+                            label="Birth Date"
+                            format="YYYY-MM-DD"
+                        />
                     </FormControl>
                 </div>
 
                 <div>
                     <FormControl component="div">
                         <InputLabel htmlFor="gender">Gender</InputLabel>
-                        <Input id="gender" autoComplete="off" />
+                        <Select
+                            labelId="gender"
+                            id="gender"
+                            value={this.state.selectedUser.gender}
+                            onChange={this.handleSelectChange("gender")}
+                            autoComplete="off"
+                        >
+                            <MenuItem value="male">Male</MenuItem>
+                            <MenuItem value="female">Female</MenuItem>
+                        </Select>
                     </FormControl>
                 </div>
                 <div>
                     <FormControl component="div">
                         <InputLabel htmlFor="job">Job</InputLabel>
-                        <Input id="job" autoComplete="off" />
+                        <Input
+                            id="job"
+                            autoComplete="off"
+                            value={this.state.selectedUser.job}
+                            onChange={this.handleChange("job")}
+                        />
                     </FormControl>
                 </div>
                 <div>
@@ -82,22 +110,28 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             multiline
                             label="Biography"
                             autoComplete="off"
+                            onChange={this.handleChange("biography")}
+                            value={this.state.selectedUser.biography}
                         />
                     </FormControl>
                 </div>
                 <div>
                     <FormControl component="div">
                         <FormControlLabel
-                            value="end"
-                            control={<Checkbox color="primary" />}
+                            control={
+                                <Checkbox
+                                    checked={!!this.state.selectedUser.is_active}
+                                    onChange={this.handleChange("is_active")}
+                                    value={this.state.selectedUser.is_active}
+                                />
+                            }
                             label="Is Active"
-                            labelPlacement="end"
                         />
                     </FormControl>
                 </div>
                 <div>
                     <FormControl component="div">
-                        <Button onClick={this.handleClick}>
+                        <Button href="#" onClick={this.handleSubmit}>
                             Save
                         </Button>
                     </FormControl>
@@ -106,8 +140,54 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
         );
     }
 
-    protected handleClick = (): void => {
-        this.props.onClick();
+    protected handleSubmit = async (): Promise<void> => {
+        const selectedUser = this.state.selectedUser;
+        if (selectedUser.id) {
+            await this.props.updateUser(selectedUser);
+        } else {
+            await this.props.addUser(selectedUser);
+        }
+    };
+
+    protected handleChange = (
+        fieldName: string
+    ): (event: React.ChangeEvent) => void => (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
+        let value: string | boolean = event.currentTarget.value;
+        if (event.currentTarget.matches("[type='checkbox']")) {
+            value = event.currentTarget.checked;
+        }
+
+        this.setState({
+            selectedUser: {
+                ...this.state.selectedUser,
+                [fieldName]: value
+            }
+        });
+    };
+
+    protected handleDateChange = (moment: Moment): void => {
+        this.setState({
+            selectedUser: {
+                ...this.state.selectedUser,
+                birth_date: moment.toDate()
+            }
+        });
+    }
+
+    protected handleSelectChange = (
+        fieldName: string
+    ): (event: React.ChangeEvent<{name?: string, value: string}>, child: React.ReactNode) => void => (
+        event: React.ChangeEvent<{name?: string, value: string}>,
+        child: React.ReactNode
+    ) => {
+        this.setState({
+            selectedUser: {
+                ...this.state.selectedUser,
+                [fieldName]: event.target.value as string
+            }
+        })
     }
 }
 

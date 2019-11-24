@@ -13,7 +13,8 @@ import { IDataTableState } from "components/DataTable/DataTableState";
 
 class DataTable extends React.Component<IDataTableProps, IDataTableState> {
     public state: IDataTableState = {
-        page: 0
+        page: 0,
+        rowsPerPage: 5
     };
 
     public render(): React.ReactNode {
@@ -31,10 +32,11 @@ class DataTable extends React.Component<IDataTableProps, IDataTableState> {
                     <TableRow>
                         <TablePagination
                             count={this.props.data.length}
-                            rowsPerPage={5}
+                            rowsPerPage={this.state.rowsPerPage}
                             rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                             colSpan={this.props.schema.length}
                             onChangePage={this.handleChangePage}
+                            onChangeRowsPerPage={this.handleChangeRowsPerPage}
                             component="td"
                             page={this.state.page}
                         />
@@ -55,16 +57,19 @@ class DataTable extends React.Component<IDataTableProps, IDataTableState> {
 
     protected renderRows = (): Array<React.ReactNode> => {
         const { schema, data } = this.props;
-        return data.map((item: Object) => {
-            return (
-                <TableRow key={uniqkey()}>
-                    {schema.map((column) => (
-                        <TableCell key={uniqkey()}>
-                            {this.renderCell(column, item)}
-                        </TableCell>
-                    ))}
-                </TableRow>
-            );
+        const { page, rowsPerPage } = this.state;
+        return data
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((item: Object) => {
+                return (
+                    <TableRow key={uniqkey()}>
+                        {schema.map((column) => (
+                            <TableCell key={uniqkey()}>
+                                {this.renderCell(column, item)}
+                            </TableCell>
+                        ))}
+                    </TableRow>
+                );
         });
     };
 
@@ -79,8 +84,16 @@ class DataTable extends React.Component<IDataTableProps, IDataTableState> {
 
     protected handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         this.setState({
+            ...this.state,
             page: newPage
         })
+    };
+
+    protected handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            page: 0,
+            rowsPerPage: +event.target.value
+        });
     };
 }
 

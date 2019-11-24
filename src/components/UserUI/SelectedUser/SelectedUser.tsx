@@ -17,18 +17,9 @@ class SelectedUser extends React.Component<ISelectedUserProps> {
                     redirectTo="/"
                     buttonText="Back"
                 />
-                {this.renderUserInfo()}
-                <UserForm onClick={this.handleClick} selectedUser={selectedUser} />
+                <UserForm selectedUser={selectedUser} {...this.props} />
             </>
         );
-    }
-
-    protected renderUserInfo = (): React.ReactNode => {
-        return null;
-    };
-
-    protected handleClick = async (): Promise<void> => {
-        this.props.onClick();
     }
 }
 
