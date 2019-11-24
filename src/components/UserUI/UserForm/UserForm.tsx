@@ -9,12 +9,21 @@ import {
     Button,
     FormControlLabel,
     Select,
-    MenuItem
+    MenuItem,
+    Theme,
+    withStyles
 } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
+import { StyleRules } from "@material-ui/core/styles";
 
 import { IUserFormProps } from "components/UserUI/UserForm/UserFormProps";
 import { IUserFormState } from "components/UserUI/UserForm/UserFormState";
+
+const styles = (theme: Theme): StyleRules => ({
+    formControl: {
+        minWidth: 120
+    },
+});
 
 class UserForm extends React.Component<IUserFormProps, IUserFormState> {
     constructor(props) {
@@ -40,10 +49,11 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
         }
     }
     public render(): React.ReactNode {
+        const { classes } = this.props;
         return (
-            <form autoComplete="off">
+            <form autoComplete="off" onSubmit={this.handleSubmit}>
                 <div>
-                    <FormControl component="div">
+                    <FormControl component="div" className={classes.formControl}>
                         <InputLabel htmlFor="first-name">First Name</InputLabel>
                         <Input
                             id="first-name"
@@ -55,7 +65,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                 </div>
 
                 <div>
-                    <FormControl component="div">
+                    <FormControl component="div" className={classes.formControl}>
                         <InputLabel htmlFor="last-name">Last Name</InputLabel>
                         <Input
                             id="last-name"
@@ -67,7 +77,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                 </div>
 
                 <div>
-                    <FormControl component="div">
+                    <FormControl component="div" className={classes.formControl}>
                         <DatePicker
                             value={this.state.selectedUser.birth_date}
                             onChange={this.handleDateChange}
@@ -78,7 +88,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                 </div>
 
                 <div>
-                    <FormControl component="div">
+                    <FormControl component="div" className={classes.formControl}>
                         <InputLabel htmlFor="gender">Gender</InputLabel>
                         <Select
                             labelId="gender"
@@ -93,7 +103,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                     </FormControl>
                 </div>
                 <div>
-                    <FormControl component="div">
+                    <FormControl component="div" className={classes.formControl}>
                         <InputLabel htmlFor="job">Job</InputLabel>
                         <Input
                             id="job"
@@ -104,7 +114,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                     </FormControl>
                 </div>
                 <div>
-                    <FormControl component="div">
+                    <FormControl component="div" className={classes.formControl}>
                         <TextField
                             rows={3}
                             multiline
@@ -116,7 +126,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                     </FormControl>
                 </div>
                 <div>
-                    <FormControl component="div">
+                    <FormControl component="div" className={classes.formControl}>
                         <FormControlLabel
                             control={
                                 <Checkbox
@@ -130,8 +140,8 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                     </FormControl>
                 </div>
                 <div>
-                    <FormControl component="div">
-                        <Button href="#" onClick={this.handleSubmit}>
+                    <FormControl component="div" className={classes.formControl}>
+                        <Button variant="contained" color="primary" type="submit">
                             Save
                         </Button>
                     </FormControl>
@@ -140,7 +150,8 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
         );
     }
 
-    protected handleSubmit = async (): Promise<void> => {
+    protected handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+        event.preventDefault();
         const selectedUser = this.state.selectedUser;
         if (selectedUser.id) {
             await this.props.updateUser(selectedUser);
@@ -174,7 +185,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                 birth_date: moment.toDate()
             }
         });
-    }
+    };
 
     protected handleSelectChange = (
         fieldName: string
@@ -188,7 +199,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                 [fieldName]: event.target.value as string
             }
         })
-    }
+    };
 }
 
-export default UserForm;
+export default withStyles(styles)(UserForm);

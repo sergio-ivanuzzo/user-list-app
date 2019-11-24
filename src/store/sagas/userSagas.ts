@@ -32,7 +32,7 @@ export function* fetchUsers(action: IUserRequestAction): IterableIterator<Effect
 export function* addUser(action: IUserRequestAction): IterableIterator<Effect> {
     try {
         let response: AxiosResponse<{data: any}> = yield call(
-            () => client.post(`/${action.payload.id}`, action.payload)
+            () => client.post("/", action.payload)
         );
 
         if (response) {
@@ -74,7 +74,7 @@ export function* updateUser(action: IUserRequestAction): IterableIterator<Effect
 export function* removeUser(action: IUserRequestAction): IterableIterator<Effect> {
     try {
         let response: AxiosResponse<{data: any}> = yield call(
-            () => client.delete(`/${action.payload.id}`)
+            () => client.delete(`/${action.payload}`)
         );
 
         if (response) {

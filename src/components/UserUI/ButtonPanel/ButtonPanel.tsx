@@ -24,7 +24,7 @@ class ButtonPanel extends React.Component<IButtonPanelProps> {
                     component={ Link }
                     to={redirectTo}
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                 >
                     {buttonText}
                 </Button>
