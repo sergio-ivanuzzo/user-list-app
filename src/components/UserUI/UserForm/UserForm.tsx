@@ -20,8 +20,11 @@ import { IUserFormProps } from "components/UserUI/UserForm/UserFormProps";
 import { IUserFormState } from "components/UserUI/UserForm/UserFormState";
 
 const styles = (theme: Theme): StyleRules => ({
+    form: {
+        padding: theme.spacing(2)
+    },
     formControl: {
-        minWidth: 120
+        minWidth: 300
     },
 });
 
@@ -51,7 +54,11 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
     public render(): React.ReactNode {
         const { classes } = this.props;
         return (
-            <form autoComplete="off" onSubmit={this.handleSubmit}>
+            <form
+                autoComplete="off"
+                onSubmit={this.handleSubmit}
+                className={classes.form}
+            >
                 <div>
                     <FormControl component="div" className={classes.formControl}>
                         <InputLabel htmlFor="first-name">First Name</InputLabel>
@@ -60,6 +67,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             autoComplete="off"
                             value={this.state.selectedUser.first_name}
                             onChange={this.handleChange("first_name")}
+                            required
                         />
                     </FormControl>
                 </div>
@@ -72,6 +80,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             autoComplete="off"
                             value={this.state.selectedUser.last_name}
                             onChange={this.handleChange("last_name")}
+                            required
                         />
                     </FormControl>
                 </div>
@@ -83,6 +92,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             onChange={this.handleDateChange}
                             label="Birth Date"
                             format="YYYY-MM-DD"
+                            required
                         />
                     </FormControl>
                 </div>
@@ -110,6 +120,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             autoComplete="off"
                             value={this.state.selectedUser.job}
                             onChange={this.handleChange("job")}
+                            required
                         />
                     </FormControl>
                 </div>
@@ -122,6 +133,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             autoComplete="off"
                             onChange={this.handleChange("biography")}
                             value={this.state.selectedUser.biography}
+                            required
                         />
                     </FormControl>
                 </div>

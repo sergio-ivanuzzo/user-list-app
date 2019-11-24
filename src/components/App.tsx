@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { createBrowserHistory } from "history";
 import { Router, Switch, Route, Redirect } from "react-router-dom";
-import { Container } from "@material-ui/core";
+import { Container, createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 
@@ -15,6 +15,8 @@ import { HistoryContext } from "components/AppProps";
 import ButtonPanel from "components/UserUI/ButtonPanel/ButtonPanel";
 import UserForm from "components/UserUI/UserForm/UserForm";
 
+const theme = createMuiTheme();
+
 class App extends React.Component {
     public render(): React.ReactNode {
         const history = {
@@ -24,17 +26,19 @@ class App extends React.Component {
         return (
             <Container>
                 <Provider store={store}>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <HistoryContext.Provider value={history}>
-                            <HistoryContext.Consumer>
-                                {() => (
-                                    <UsersContainer>
-                                        {this.renderUsersUI}
-                                    </UsersContainer>
-                                )}
-                            </HistoryContext.Consumer>
-                        </HistoryContext.Provider>
-                    </MuiPickersUtilsProvider>
+                    <MuiThemeProvider theme={theme}>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                            <HistoryContext.Provider value={history}>
+                                <HistoryContext.Consumer>
+                                    {() => (
+                                        <UsersContainer>
+                                            {this.renderUsersUI}
+                                        </UsersContainer>
+                                    )}
+                                </HistoryContext.Consumer>
+                            </HistoryContext.Provider>
+                        </MuiPickersUtilsProvider>
+                    </MuiThemeProvider>
                 </Provider>
             </Container>
         );

@@ -35,16 +35,6 @@ const UsersTableSchema = (handleEdit, handleDelete): Array<ISchemaItem> => {
         title: "Gender",
         fieldName: "gender"
     }, {
-        title: "Job",
-        fieldName: "job"
-    }, {
-        title: "Biography",
-        fieldName: "biography"
-    }, {
-        title: "Is Active",
-        fieldName: "is_active",
-        cell: (is_active) => (is_active) ? "Yes" : "No"
-    }, {
         fieldName: "id",
         cell: (id) => {
             return (
