@@ -68,6 +68,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             value={this.state.selectedUser.first_name}
                             onChange={this.handleChange("first_name")}
                             required
+                            inputProps={{maxLength: 256}}
                         />
                     </FormControl>
                 </div>
@@ -81,6 +82,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             value={this.state.selectedUser.last_name}
                             onChange={this.handleChange("last_name")}
                             required
+                            inputProps={{maxLength: 256}}
                         />
                     </FormControl>
                 </div>
@@ -121,6 +123,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             value={this.state.selectedUser.job}
                             onChange={this.handleChange("job")}
                             required
+                            inputProps={{maxLength: 256}}
                         />
                     </FormControl>
                 </div>
@@ -134,6 +137,7 @@ class UserForm extends React.Component<IUserFormProps, IUserFormState> {
                             onChange={this.handleChange("biography")}
                             value={this.state.selectedUser.biography}
                             required
+                            inputProps={{maxLength: 1024}}
                         />
                     </FormControl>
                 </div>

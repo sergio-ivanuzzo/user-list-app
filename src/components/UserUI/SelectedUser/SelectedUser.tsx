@@ -49,7 +49,7 @@ class SelectedUser extends React.Component<ISelectedUserProps, ISelectedUserStat
                     buttonText="Back"
                 />
                 <Paper className={classes.root}>
-                    <UserForm selectedUser={selectedUser} {...this.props} />
+                    <UserForm selectedUser={selectedUser} updateUser={this.props.updateUser} />
                     <Card className={classes.card}>
                         <CardContent>
                             <Typography color="textPrimary">
